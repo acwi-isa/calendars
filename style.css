@@ -3,6 +3,9 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
+    width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .calendar-layout {
@@ -20,8 +23,6 @@ body {
 }
 
 .sidebar {
-  background: #232323;
-  color: #fff;
   padding: 40px 20px;
   display: flex;
   flex-direction: column;
