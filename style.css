@@ -31,9 +31,10 @@ body {
 }
 
 .calendar-title {
-  font-size: 1em;
+  font-size: 1.3em;
   text-align: center;
   margin: 0;
+  overflow-wrap: break-word;
 }
 
 .today-view, .upcoming-view {
