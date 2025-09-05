@@ -3,40 +3,15 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
-    width: 100vw;
-  height: 100vh;
-  overflow: hidden;
 }
 
 .calendar-layout {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  width: 1280px;
-  height: 800px;
-  background: #fff;
-  margin: 0 auto;
-  box-shadow: 0 0 20px rgba(0,0,0,0.15);
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-}
-
-.sidebar {
-  padding: 40px 20px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  border-right: 2px solid #e0e0e0;
-}
-
-.logo-placeholder {
-  margin-bottom: 30px;
-}
-
-.calendar-title {
-  font-size: 2em;
-  text-align: center;
-  margin: 0;
+  justify-content: center;
+  align-items: stretch;
+  min-height: 100vh;
+  gap: 36px;
+  padding: 40px 0;
 }
 
 .today-view, .upcoming-view {
@@ -71,24 +46,43 @@ h2 {
   overflow-y: auto;
 }
 
+/* Hour slot lines and alignment */
 .hour-slot {
   position: relative;
   height: 60px;
-  border-bottom: 1px solid #f0f0f0;
   padding-left: 54px;
+  box-sizing: border-box;
+  /* Removed border-bottom */
+}
+.hour-slot::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0;
+  border-top: 1px solid #f0f0f0;
+  z-index: 0;
+}
+.day-grid .hour-slot:last-child::before {
+  border-top: none;
 }
 
+/* Hour label alignment */
 .hour-label {
   position: absolute;
   left: 0;
-  top: 6px;
+  top: 0;
   font-size: 0.95em;
   color: #888;
   width: 48px;
   text-align: right;
+  line-height: 60px;
+  height: 60px;
   user-select: none;
+  z-index: 1;
 }
 
+/* Event block horizontal layout */
 .event-block {
   position: absolute;
   left: 56px;
@@ -97,43 +91,42 @@ h2 {
   border-left: 4px solid #2a66b7;
   color: #234;
   border-radius: 4px;
-  padding: 4px 8px;
+  padding: 0 8px;
   font-size: 1em;
   margin-bottom: 2px;
   box-shadow: 0 2px 6px rgba(42,102,183,0.06);
   z-index: 2;
-  overflow: hidden;
   display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.event-block .event-title {
-  font-weight: 500;
-  font-size: 1em;
-  color: #222;
-  white-space: nowrap;
+  flex-direction: row;
+  align-items: center;
+  min-height: 22px;
+  gap: 6px;
   overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-  max-width: 100%;
 }
 
 .event-block .event-time {
   display: block;
   font-size: 0.95em;
   color: #295e9e;
-    margin-top: 4px;
-    overflow: hidden;
+  min-width: 54px;
+  max-width: 60px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  margin-right: 5px;
+  text-align: left;
+}
+
+.event-block .event-title {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
-  display: block;
-  max-width: 100%;
+  flex-grow: 1;
+  min-width: 0;
 }
 
 .event-block .event-location {
-  display: block;
-  font-size: 0.90em;
-  color: #666;
+  display: none; /* Hide for short events, you can adjust this for longer blocks */
 }
 
 .event-block.allday {
@@ -144,8 +137,10 @@ h2 {
   border-left-color: #f6b70a;
   color: #222;
   margin-bottom: 8px;
+  display: block;
+  padding: 4px 8px;
+  /* Restore default vertical layout for all-day */
 }
-
 .upcoming-view {
   max-width: 340px;
   min-width: 270px;
@@ -183,8 +178,21 @@ h2 {
   color: #666;
 }
 
+/* Responsive for mobile */
+@media (max-width: 900px) {
+  .calendar-layout {
+    flex-direction: column;
+    gap: 20px;
+    padding: 8px 0;
+  }
+  .today-view, .upcoming-view {
+    max-width: 98vw;
+    min-width: 80vw;
+  }
+}
+
 /* 7-inch 16:10 WXGA (1280x800) screen optimization */
-@media (device-width: 1280px) and (device-height: 800px), 
+@media (device-width: 1280px) and (device-height: 800px),
        (device-width: 800px) and (device-height: 1280px),
        (max-width: 1280px) and (aspect-ratio: 16/10) {
 
@@ -196,27 +204,18 @@ h2 {
     max-width: 100vw;
     max-height: 100vh;
     overflow-x: auto;
-    font-size: 1em;
+    font-size: 17px;
   }
 
   .calendar-layout {
     gap: 24px;
     padding: 24px 0;
-    min-height: 720px; /* fit screen minus some padding */
+    min-height: 720px;
   }
-.sidebar {
-  padding: 18px 12px;
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
-  align-items: center;
-  justify-content: flex-start;
-  border-right: 2px solid #e0e0e0;
-}
-         
+
   .today-view, .upcoming-view {
     min-width: 340px;
-    max-width: 460px;
+    max-width: 420px;
     padding: 18px 12px;
   }
 
@@ -237,16 +236,18 @@ h2 {
   .hour-label {
     width: 32px;
     font-size: 0.93em;
+    line-height: 44px;
+    height: 44px;
   }
 
   .event-block {
     left: 40px;
     right: 6px;
     font-size: 0.98em;
-    padding: 3px 1px;
+    padding: 0 7px;
+    min-height: 18px;
   }
 
-  /* Tweak upcoming event size for better fit */
   .upcoming-view {
     max-width: 350px;
     min-width: 230px;
@@ -254,7 +255,7 @@ h2 {
   }
 }
 
-/* Optional: Force landscape orientation (if applicable for your use case) */
+/* Optional: Force landscape orientation (if applicable) */
 @media screen and (orientation: portrait) {
   body::before {
     content: "Please rotate your device for the best experience.";
