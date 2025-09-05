@@ -14,6 +14,27 @@ body {
   padding: 40px 0;
 }
 
+.sidebar {
+  background: #232323;
+  color: #fff;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border-right: 2px solid #e0e0e0;
+}
+
+.logo-placeholder {
+  margin-bottom: 30px;
+}
+
+.calendar-title {
+  font-size: 2em;
+  text-align: center;
+  margin: 0;
+}
+
 .today-view, .upcoming-view {
   background: #fff;
   border-radius: 12px;
