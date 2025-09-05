@@ -168,7 +168,7 @@ h2 {
     max-width: 100vw;
     max-height: 100vh;
     overflow-x: auto;
-    font-size: 17px; /* slightly larger for readability at 7" */
+    font-size: 20px; /* slightly larger for readability at 7" */
   }
 
   .calendar-layout {
