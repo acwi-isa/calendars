@@ -124,6 +124,10 @@ h2 {
   font-size: 0.95em;
   color: #295e9e;
     margin-top: 4px;
+    overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: 100%;
 }
 
 .event-block .event-location {
