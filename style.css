@@ -44,15 +44,16 @@ h2 {
   border-left: 2px solid #e3e8f0;
   background: #f9fafc;
   overflow-y: auto;
+  /* No padding or margin to ensure pixel-perfect alignment */
 }
 
 /* Hour slot lines and alignment */
 .hour-slot {
   position: relative;
-  height: 60px;
+  height: 60px; /* This height must match the JS hour-to-pixels calculation */
   padding-left: 54px;
   box-sizing: border-box;
-  /* Removed border-bottom */
+  /* No border, margin, or padding-top */
 }
 .hour-slot::before {
   content: "";
@@ -76,7 +77,7 @@ h2 {
   color: #888;
   width: 48px;
   text-align: right;
-  line-height: 60px;
+  line-height: 60px; /* Centered within .hour-slot */
   height: 60px;
   user-select: none;
   z-index: 1;
@@ -126,7 +127,7 @@ h2 {
 }
 
 .event-block .event-location {
-  display: none; /* Hide for short events, you can adjust this for longer blocks */
+  display: none;
 }
 
 .event-block.allday {
@@ -139,8 +140,8 @@ h2 {
   margin-bottom: 8px;
   display: block;
   padding: 4px 8px;
-  /* Restore default vertical layout for all-day */
 }
+
 .upcoming-view {
   max-width: 340px;
   min-width: 270px;
@@ -255,7 +256,7 @@ h2 {
   }
 }
 
-/* Optional: Force landscape orientation (if applicable) */
+/* Optional: Force landscape orientation */
 @media screen and (orientation: portrait) {
   body::before {
     content: "Please rotate your device for the best experience.";
