@@ -6,12 +6,17 @@ body {
 }
 
 .calendar-layout {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  min-height: 100vh;
-  gap: 36px;
-  padding: 40px 0;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  width: 1280px;
+  height: 800px;
+  background: #fff;
+  margin: 0 auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  /* Center the layout on the screen */
+  margin: auto;
 }
 
 .sidebar {
