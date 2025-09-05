@@ -21,11 +21,12 @@ body {
   align-items: center;
   justify-content: flex-start;
   border-right: 2px solid #e0e0e0;
-  max-width: 300px
+  max-width: 350px
 }
 
 .logo-placeholder {
   margin-bottom: 30px;
+  width: 200px
 }
 
 .calendar-title {
@@ -47,7 +48,7 @@ body {
 }
 
 .today-view {
-  max-width: 390px;
+  max-width: 400px;
 }
 
 h2 {
@@ -241,7 +242,7 @@ h2 {
   }
 
   .today-view {
-    max-width: 415px;
+    max-width: 450px;
   }
 
   .day-grid {
@@ -270,7 +271,7 @@ h2 {
   }
 
   .upcoming-view {
-    max-width: 350px;
+    max-width: 450px;
     min-width: 230px;
     padding: 16px 8px;
   }
