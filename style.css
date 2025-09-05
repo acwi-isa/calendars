@@ -154,25 +154,7 @@ h2 {
     min-width: 80vw;
   }
 }
-Copilot said: To format your site for a 7-inch,
-To format your site for a 7-inch, 16:10 WXGA (1280x800) screen, you should:
 
-Set the viewport for proper scaling.
-Use media queries to optimize layout for 1280x800 resolution and 16:10 aspect ratio.
-Adjust widths, font sizes, and paddings so that your UI fits and is readable on a 7-inch screen.
-Below is a recommended update to your CSS and the HTML <head> to ensure proper scaling and layout on a 7-inch, 16:10 (1280x800) device.
-
-1. Add viewport meta tag (in your HTML):
-
-HTML
-<meta name="viewport" content="width=1280, height=800, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-This ensures the page displays at the device's native resolution.
-
-2. Add/Update CSS for 1280x800, 16:10 screens:
-
-Add the following at the bottom of your style.css file:
-
-CSS
 /* 7-inch 16:10 WXGA (1280x800) screen optimization */
 @media (device-width: 1280px) and (device-height: 800px), 
        (device-width: 800px) and (device-height: 1280px),
