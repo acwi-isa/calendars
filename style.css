@@ -142,19 +142,6 @@ h2 {
   color: #666;
 }
 
-/* Responsive for mobile */
-@media (max-width: 900px) {
-  .calendar-layout {
-    flex-direction: column;
-    gap: 20px;
-    padding: 8px 0;
-  }
-  .today-view, .upcoming-view {
-    max-width: 98vw;
-    min-width: 80vw;
-  }
-}
-
 /* 7-inch 16:10 WXGA (1280x800) screen optimization */
 @media (device-width: 1280px) and (device-height: 800px), 
        (device-width: 800px) and (device-height: 1280px),
