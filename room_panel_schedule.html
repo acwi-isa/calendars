@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Aspire Center – Room Schedule</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 1280px;
+      height: 800px;
+      font-family: sans-serif;
+      background: #f5f5f5;
+      overflow: hidden;
+    }
+    header {
+      height: 60px;
+      background: #003366;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-size: 1.2em;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      height: calc(100% - 60px);
+    }
+    /* Day view */
+    #day-view {
+      position: relative;
+      background: white;
+      border-right: 2px solid #ddd;
+      overflow: hidden;
+    }
+    .hour {
+      position: relative;
+      height: 50px;
+      border-top: 1px solid #eee;
+      font-size: 0.8em;
+      color: #666;
+      padding-left: 5px;
+    }
+    .event {
+      position: absolute;
+      left: 80px;
+      right: 10px;
+      background: #3a87ad;
+      color: white;
+      border-radius: 5px;
+      padding: 2px 5px;
+      font-size: 0.9em;
+      overflow: hidden;
+    }
+    /* Upcoming list */
+    #upcoming {
+      background: #fafafa;
+      padding: 10px;
+      overflow-y: auto;
+    }
+    #upcoming h2 {
+      margin-top: 0;
+      font-size: 1.1em;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+    .upcoming-event {
+      margin: 8px 0;
+      padding: 6px;
+      background: white;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .upcoming-event time {
+      font-size: 0.85em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div id="room-name">Room Schedule</div>
+    <div id="current-date"></div>
+  </header>
+  <main>
+    <section id="day-view"></section>
+    <section id="upcoming">
+      <h2>Upcoming Events</h2>
+      <div id="upcoming-list"></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/ical.js@1.5.0/build/ical.min.js"></script>
+  <script>
+    const ICS_URL = "YOUR_ICS_FEED_URL_HERE"; // replace with Google Calendar .ics link
+
+    const hours = Array.from({length: 14}, (_, i) => i + 7); // 7 AM to 9 PM
+    const dayView = document.getElementById('day-view');
+    const upcomingList = document.getElementById('upcoming-list');
+
+    function renderHours() {
+      hours.forEach(h => {
+        const div = document.createElement('div');
+        div.className = 'hour';
+        div.style.top = `${(h-7)*50}px`;
+        div.textContent = h + ":00";
+        dayView.appendChild(div);
+      });
+    }
+
+    async function fetchEvents() {
+      const res = await fetch(ICS_URL);
+      const text = await res.text();
+      const jcalData = ICAL.parse(text);
+      const comp = new ICAL.Component(jcalData);
+      const vevents = comp.getAllSubcomponents('vevent');
+      const events = vevents.map(v => new ICAL.Event(v));
+      return events;
+    }
+
+    function renderEvents(events) {
+      const now = new Date();
+      const todayStr = now.toISOString().split('T')[0];
+      dayView.innerHTML = '';
+      renderHours();
+      upcomingList.innerHTML = '';
+
+      const todaysEvents = events.filter(e => e.startDate.toJSDate().toISOString().startsWith(todayStr));
+      const futureEvents = events.filter(e => e.startDate.toJSDate().toISOString() > todayStr);
+
+      todaysEvents.forEach(e => {
+        const start = e.startDate.toJSDate();
+        const end = e.endDate.toJSDate();
+        const durationHours = (end - start) / (1000*60*60);
+        const top = (start.getHours() - 7) * 50 + (start.getMinutes()/60)*50;
+        const height = durationHours * 50;
+
+        const div = document.createElement('div');
+        div.className = 'event';
+        div.style.top = top + 'px';
+        div.style.height = height + 'px';
+        div.textContent = e.summary;
+        dayView.appendChild(div);
+      });
+
+      futureEvents.slice(0, 10).forEach(e => {
+        const start = e.startDate.toJSDate();
+        const div = document.createElement('div');
+        div.className = 'upcoming-event';
+        div.innerHTML = `<strong>${e.summary}</strong><br><time>${start.toLocaleString()}</time>`;
+        upcomingList.appendChild(div);
+      });
+    }
+
+    function updateHeader() {
+      const now = new Date();
+      document.getElementById('current-date').textContent = now.toLocaleDateString(undefined, {weekday:'long', month:'long', day:'numeric'});
+    }
+
+    async function refresh() {
+      updateHeader();
+      const events = await fetchEvents();
+      renderEvents(events);
+    }
+
+    renderHours();
+    refresh();
+    setInterval(refresh, 5*60*1000);
+  </script>
+</body>
+</html>
